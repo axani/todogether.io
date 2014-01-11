@@ -1,7 +1,8 @@
 {
-  "name": "ToDo",
-  "description": "A simple To Do application",
+  "name": "todogether",
+  "description": "Create simple collaborative todo-lists",
   "version": "0.0.1",
+  "main": "app.js",
   "dependencies": {
     "express": "latest",
     "socket.io": "latest",
