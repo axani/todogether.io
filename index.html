@@ -1,0 +1,23 @@
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script>
+    
+    var socket = io.connect();
+    var thisID = '';
+
+    socket.emit('generateID');
+    socket.on('showID', function(listID) {
+        console.log('Your List ID will be: ' + listID);
+        thisID = listID;
+    })
+    
+    $(function() {
+        $('.sendmetolist').click(function() {
+            socket.emit('createList');
+            $(this).attr('href', thisID);
+        });
+    });
+</script>
+
+<h1>Welcome!</h1>
+<a class="sendmetolist" href="">Create new List!</a>

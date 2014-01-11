@@ -1,0 +1,10 @@
+{
+  "name": "ToDo",
+  "description": "A simple To Do application",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "latest",
+    "socket.io": "latest",
+    "shortid": "~2.0.0"
+  }
+}

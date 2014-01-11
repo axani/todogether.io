@@ -1,0 +1,118 @@
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script>
+    var socket = io.connect()
+    var thisList = {}
+    thisList.HTMLcontent = $('.lists').html()
+    thisList.ID = window.location.pathname;
+
+    /* Connect */
+    socket.on('connect', function() {
+        socket.emit('getListData', thisList.ID);
+        socket.on('getJSON', function(listJSON) {
+            if (listJSON.HTMLcontent != '') {
+                thisList.HTMLcontent = listJSON.HTMLcontent
+                $('.lists').html(thisList.HTMLcontent)
+            }
+        });
+
+        socket.emit('newUser', thisList.ID);
+    })
+
+    /* Status Updates */
+
+    socket.on('updateLog', function(status) {
+        $('.log').append('<li>' + status + '</li>');
+    });
+
+    /* Checklist */ 
+
+    function saveList() {
+        thisList.HTMLcontent = $('.lists').html();
+        socket.emit('saveList', thisList)
+        console.log(thisList);
+    }
+
+    socket.on('saveListTrigger', function() {
+        saveList();
+    });
+
+    socket.on('updateList', function(data) {
+        if(typeof(data) == 'string') {
+            $('.list-todo').append('<li><input type="checkbox" class="checkbox-todo">' + data + '</li>');
+            console.log('Item added');
+        } else {
+            $('.lists').html(data.HTMLcontent); 
+            console.log('Content replaced' +  data.HTMLcontent);
+        };
+
+        thisList.HTMLcontent = $('.lists').html();
+        saveList();
+    });
+
+    $(function() {
+        // $('.save').click(function() {
+        //     saveList();
+        // });
+
+        $('.datasend').click(function() {
+            var data = $('.data').val();
+            $('.data').val('');
+            socket.emit('addItem', data);
+        });
+
+        $('.data').keypress(function(e) {
+            if (e.which == 13) {
+                $('.datasend').click().blur();
+            }
+        });
+
+        $('.lists').on('click', '.list-todo .checkbox-todo', function() {
+            $(this).attr('checked', 'checked');
+            var thisListItem = $(this).parent('li');
+            $('.list-done').prepend('<li>' + thisListItem.html() + '</li>');
+            thisListItem.remove();
+            updateEntireList();
+            console.log('check');
+            
+        })
+
+        $('.lists').on('click', '.list-done .checkbox-todo', function() {
+            console.log('uncheck');
+            $(this).removeAttr('checked');
+            var thisListItem = $(this).parent('li');
+            $('.list-todo').prepend('<li>' + thisListItem.html() + '</li>');
+            thisListItem.remove();
+            updateEntireList()
+        })
+
+        function updateEntireList() {
+            thisList.HTMLcontent = $('.lists').html();
+            socket.emit('coldUpdate', thisList)
+        }
+    });
+
+</script>
+
+<!-- <a href="" class="save">SAVE!</a> -->
+<h2>Your List</h2>
+
+<div style="float:left;width:30%;border-right:1px solid black;padding:10px;">
+  <h5>ONLINE:</h5>
+  <h1 class="users">.</h1>
+  <h5>STATUS:</h5>
+  <ul style="font-size: 0.8em; color: grey; padding: 1em;"class="log"></ul>
+
+</div>
+<div  style="float:left;width:50%;padding:10px;">
+  <input class="data" style="width:200px;" />
+  <input type="button" class="datasend" value="add" />
+  <div class="lists">
+    <h3>TO DO</h3>
+    <ul style="margin-top: 10px; list-style: none" class="list-todo"></ul>
+    <h3>COMPLETED</h3>
+    <ul style="margin-top: 10px; list-style: none" class="list-done"></ul>
+  </div>
+</div>
+
