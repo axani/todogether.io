@@ -88,11 +88,23 @@ io.sockets.on('connection', function(socket) {
         });
     });
 
+    function countUsers() {
+        var currentUsers = 0;
+        io.sockets.clients(socket.connectedList).forEach(function() {
+            currentUsers++
+        });
+        console.log('Current Users:' + currentUsers);
+        return currentUsers;
+    }
+
     socket.on('newUser', function(thisListID) {
         console.log('New User connected');
-        io.sockets.in(socket.connectedList).emit('updateLog', 'New connection');
+        socket.broadcast.to(socket.connectedList).emit('updateLog', 'A new user has connected!');
+        socket.emit('updateLog', 'Welcome!');
         socket.connectedList = thisListID
         socket.join(thisListID)
+        
+        io.sockets.in(socket.connectedList).emit('updateUsers', countUsers());
     });
 
     socket.on('addItem', function(data) {
@@ -109,6 +121,7 @@ io.sockets.on('connection', function(socket) {
         
         io.sockets.in(socket.connectedList).emit('updateLog', 'A user has disconnected');
         socket.leave(socket.connectedList)
+        io.sockets.in(socket.connectedList).emit('updateUsers', countUsers());
     });
 
 

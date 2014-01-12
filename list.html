@@ -20,7 +20,7 @@
                 $('.list-item').each(function() {
                     listItemCount++;
                 })
-                console.log('There are already ' + listItemCount + ' list items!');
+                console.log('There are currently ' + listItemCount + ' list items!');
             }
         });
 
@@ -31,6 +31,10 @@
 
     socket.on('updateLog', function(status) {
         $('.log').append('<li>' + status + '</li>');
+    });
+
+    socket.on('updateUsers', function(userCount) {
+        $('.users').html(userCount);
     });
 
     /* Checklist */ 
@@ -160,7 +164,7 @@
 
 <div style="float:left;width:30%;border-right:1px solid black;padding:10px;">
   <h5>ONLINE:</h5>
-  <h1 class="users">.</h1>
+  <h1 class="users">1</h1>
   <h5>STATUS:</h5>
   <ul style="font-size: 0.8em; color: grey; padding: 1em;"class="log"></ul>
 
