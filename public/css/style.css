@@ -124,5 +124,112 @@ a abbr {
 img {
   -ms-interpolation-mode: bicubic; }
 
+/* Variables */
+/* Helpers */
+.unstyled-link {
+  text-decoration: none; }
+
+.edit-border, .list-item.active {
+  border: 1px dashed #5f5f5f; }
+
+/* Main */
+body {
+  font-family: Times New Roman;
+  font-size: 20px;
+  line-height: 1.4em;
+  background-color: #eeeeee;
+  color: black;
+  padding: 1em; }
+
+a {
+  color: #5f5f5f; }
+
+p {
+  margin-bottom: 1.4em; }
+
+.header h1 {
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.3em;
+  width: 40%; }
+.header ul {
+  display: inline-block;
+  font-size: 0.7em;
+  text-align: right;
+  width: 58%; }
+  .header ul li {
+    display: inline;
+    padding: 1em; }
+
+.footer {
+  text-align: center;
+  font-size: 0.7em; }
+
+/* List */
+.list {
+  background-color: white;
+  color: black;
+  padding: 1em;
+  margin: 1em 0; }
+  .list a {
+    color: #d45775; }
+
+.list-name {
+  font-weight: bold;
+  text-transform: uppercase; }
+
+.list-input {
+  font-size: 1em;
+  color: #529ac8;
+  font-family: Times New Roman;
+  padding: 0.3em;
+  width: 80%; }
+
+.list-input-button {
+  font-weight: bold;
+  color: #d45775;
+  text-decoration: none;
+  padding: 0 0.3em;
+  left: 0.3em; }
+
+.list-main {
+  margin-bottom: 4em; }
+
+.sub-lists {
+  margin: 1em 0; }
+  .sub-lists h3 {
+    font-weight: bold;
+    margin: 1.4em 0 0.7em 0;
+    text-transform: uppercase; }
+
+.list-item {
+  padding: 0.1em 0.3em; }
+
 .list-item.active {
-  color: green; }
+  color: #529ac8; }
+
+.list-done .list-item {
+  color: #89d055; }
+
+input[type="checkbox"] {
+  margin-right: 0.6em; }
+
+.list-footer {
+  background-color: #ffffe4;
+  font-size: 0.8em;
+  padding: 1em;
+  opacity: 0.5; }
+  .list-footer:hover {
+    opacity: 1; }
+  .list-footer h3, .list-footer ul, .list-footer li {
+    display: inline-block; }
+  .list-footer h3 {
+    min-width: 5.5em; }
+  .list-footer li {
+    margin-right: 0.5em; }
+
+.list-info, .list-output {
+  vertical-align: top;
+  width: 50%;
+  min-width: 15em;
+  display: inline-block; }
