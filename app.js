@@ -72,6 +72,12 @@ io.sockets.on('connection', function(socket) {
         }); 
     });
 
+    socket.on('updateItem', function(itemID, itemContent) {
+        // io.sockets.in(socket.connectedList).emit('showItemUpdate', itemID, itemContent);
+        socket.broadcast.to(socket.connectedList).emit('showItemUpdate', itemID, itemContent);
+        console.log('updating item');
+    });
+
     socket.on('saveList', function(listJSON) {
         fs.writeFile('li' + listJSON.ID, JSON.stringify(listJSON), function(err) {
             if(err) {

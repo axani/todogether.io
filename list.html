@@ -1,9 +1,11 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
 <script>
     var socket = io.connect()
     var thisList = {}
+    var listItemCount = 0;
     thisList.HTMLcontent = $('.lists').html()
     thisList.ID = window.location.pathname;
 
@@ -14,6 +16,11 @@
             if (listJSON.HTMLcontent != '') {
                 thisList.HTMLcontent = listJSON.HTMLcontent
                 $('.lists').html(thisList.HTMLcontent)
+
+                $('.list-item').each(function() {
+                    listItemCount++;
+                })
+                console.log('There are already ' + listItemCount + ' list items!');
             }
         });
 
@@ -40,7 +47,8 @@
 
     socket.on('updateList', function(data) {
         if(typeof(data) == 'string') {
-            $('.list-todo').append('<li><input type="checkbox" class="checkbox-todo">' + data + '</li>');
+            listItemCount++,
+            $('.list-todo').prepend('<li><input type="checkbox" class="checkbox-todo"><span itemID="' + listItemCount + '"class="list-item" contenteditable>' + data + '</span></li>');
             console.log('Item added');
         } else {
             $('.lists').html(data.HTMLcontent); 
@@ -68,6 +76,51 @@
             }
         });
 
+        function updateItem(thisElement) {
+            var itemContent = thisElement.html();
+            var itemID = thisElement.attr('itemID');
+            socket.emit('updateItem', itemID, itemContent)
+        }
+
+        socket.on('showItemUpdate', function(itemID, itemContent) {
+            $('.list-item[itemID = "' + itemID + '"]').html(itemContent);
+            $('.list-item[itemID = "' + itemID + '"]').clearQueue().animate({'color': 'red'}, 100).animate({'color': 'black'}, 1000);
+            console.log('ITEM ' + itemID + ' UPDATED');
+            console.log($('.list-item[itemID = "' + itemID + '"]').html());
+        });
+
+        $('.lists')
+            .on('click', '.list-item', function() {
+                var itemContentBackup = $(this).html();
+                $(this).addClass('active');
+                $(this).keydown( function(e) {
+                    console.log(e.which);
+                    saveList();
+                    if (e.which == 13) {
+                        // updateEntireList();
+                        $(this).blur();
+
+                    }
+                });
+
+                $(this).keyup( function(e) {
+                    if (e.which == 27) {
+                        // updateEntireList();
+                        $(this).html(itemContentBackup);
+                        console.log('ESCAPE');
+                        $(this).blur();
+                    }
+                });
+                
+            })
+            .on('blur', '.list-item', function() {
+                $(this).removeClass('active');
+                saveList();
+            })
+            .on('keyup', '.list-item', function() {
+                updateItem($(this));
+            });
+
         $('.lists').on('click', '.list-todo .checkbox-todo', function() {
             $(this).attr('checked', 'checked');
             var thisListItem = $(this).parent('li');
@@ -94,6 +147,13 @@
     });
 
 </script>
+
+<style>
+.list-item.active{
+    color: green;
+}
+
+</style>
 
 <!-- <a href="" class="save">SAVE!</a> -->
 <h2>Your List</h2>
