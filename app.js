@@ -4,7 +4,8 @@ var express = require('express'),
     server = http.createServer(app),
     io = require('socket.io').listen(server),
     shortId = require('shortid'),
-    fs = require('fs');
+    fs = require('fs'),
+    path = require('path');
 
 /* Main stuff */
 server.listen(8080);
@@ -12,9 +13,12 @@ var listFolder = 'li'
 
 /* Main Routes */
 
+app.use(express.static(__dirname + '/public'));
+
 app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index.html');
 });
+
 
 /* Dynamic Routes */
 
@@ -34,6 +38,8 @@ app.get('*', function(req, res) {
         }
     });
 })
+
+
 
 io.sockets.on('connection', function(socket) {
 
