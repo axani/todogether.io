@@ -12,7 +12,7 @@ $spot-color: #d45775;
 $dark-color: #5f5f5f;
 
 $std-line-height: 1.4em;
-$std-font: Times New Roman;
+$std-font: "lft-etica", Times New Roman;
 
 /* Helpers */
 
@@ -27,11 +27,12 @@ $std-font: Times New Roman;
 /* Main */
 body {
     font-family: $std-font;
-    font-size: 20px;
+    font-size: 24px;
     line-height: $std-line-height;
     background-color: $background-color;
     color: $text-color-dark;
     padding: 1em;
+    font-weight: 200;
 }
 
 a {
