@@ -1,5 +1,5 @@
 var todogetherApp = angular.module("todogetherApp", [
-    'todogetherFactory',
+    'todogetherSocket',
     'todogetherControllers',
     'ngSanitize'
 ]);

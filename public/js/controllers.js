@@ -1,16 +1,60 @@
-var todogetherFactory = angular.module('todogetherFactory', []);
+var todogetherSocket = angular.module('todogetherSocket', []);
 var todogetherControllers = angular.module('todogetherControllers', []);
 
-todogetherFactory.factory('getJsonFactory',function($http){
-    return{
-    getData : function() {
-        return $http.get('AS_DMjsb.json');
-    }
- }
-});
+todogetherSocket.factory('socket', [ '$rootScope', function ($rootScope) {
+  'use strict';
+  var socket = io.connect();
 
-todogetherControllers.controller('listCtrl', function ($scope, getJsonFactory) {
-    getJsonFactory.getData().success(function(data){
+  return {
+    emit: function (event, data, callback) {
+      socket.emit(event, data, function () {
+        var args = arguments;
+        $rootScope.$apply(function () {
+          if (callback) {
+            callback.apply(null, args);
+          }
+      });
+    });
+    },
+    on: function (event, callback) {
+      socket.on(event, function () {
+        var args = arguments;
+        $rootScope.$apply(function () {
+          callback.apply(null, args);
+        });
+      });
+    },
+    off: function (event, callback) {
+      socket.removeListener(event, callback);
+    }
+  };
+}]);
+
+todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
+    /* Functions */
+    var thisList = {}
+    thisList.ID = window.location.pathname;
+
+    console.log(thisList);
+
+    socket.on('connect', function () {
+        
+        /* Maintenance */
+        socket.emit('getState', { initial: true });
+
+        socket.on('gotState', function (state) {
+            $scope.state = state;
+        });
+
+        $scope.$on('$destroy', function () {
+            socket.off('gotState', updateState);
+        });
+
+    });
+
+    $http.get('li' + thisList.ID).success(function(data){
+        console.log('hi');
+        console.log(data);
         $scope.list = data;
         $scope.itemCount = {}
         $scope.filter = ''
@@ -29,13 +73,6 @@ todogetherControllers.controller('listCtrl', function ($scope, getJsonFactory) {
                 $scope.itemCount[itemState] =  _.size(items[itemState]);
             });
         }
-
-        var testString = 'this should @philipp @do';
-        _.each(testString, function(character) {
-            if( character === '@') {
-                console.log(testString.indexOf(character));
-            }
-        });
 
         $scope.userNames = []
         $scope.findDelegations = function(itemText) {
@@ -140,6 +177,7 @@ todogetherControllers.controller('listCtrl', function ($scope, getJsonFactory) {
                 //updateItem($(this));
 
             });
+    })
 
-    });
+
 });

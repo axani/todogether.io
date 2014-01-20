@@ -1,165 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html data-ng-app="todogetherApp">
 <head>
     <meta charset="utf-8" />
     <title>todogether.io – Listname</title>
      
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <script>
-        var socket = io.connect()
-        var thisList = {}
-        var listItemCount = 0;
-        thisList.HTMLcontent = $('.sub-lists').html()
-        thisList.ID = window.location.pathname;
-
-        /* Connect */
-        socket.on('connect', function() {
-            socket.emit('getListData', thisList.ID);
-            socket.on('getJSON', function(listJSON) {
-                if (listJSON.HTMLcontent != '') {
-                    thisList.HTMLcontent = listJSON.HTMLcontent
-                    $('.sub-lists').html(thisList.HTMLcontent)
-
-                    $('.list-item').each(function() {
-                        listItemCount++;
-                    })
-                    console.log('There are currently ' + listItemCount + ' list items!');
-                }
-            });
-
-            socket.emit('newUser', thisList.ID);
-        })
-
-        /* Status Updates */
-
-        socket.on('updateLog', function(status) {
-            $('.log').append('<li>' + status + '</li>');
-        });
-
-        socket.on('updateUsers', function(userCount) {
-            $('.users').html(userCount);
-        });
-
-        /* Checklist */ 
-
-        function saveList() {
-            thisList.HTMLcontent = $('.sub-lists').html();
-            socket.emit('saveList', thisList)
-            console.log(thisList);
-        }
-
-        socket.on('saveListTrigger', function() {
-            saveList();
-        });
-
-        socket.on('updateList', function(data) {
-            if(typeof(data) == 'string') {
-                listItemCount++,
-                $('.list-todo').prepend('<li><input type="checkbox" class="checkbox-todo"><span itemID="' + listItemCount + '"class="list-item" contenteditable>' + data + '</span></li>');
-                console.log('Item added');
-            } else {
-                $('.sub-lists').html(data.HTMLcontent); 
-                console.log('Content replaced' +  data.HTMLcontent);
-            };
-
-            thisList.HTMLcontent = $('.sub-lists').html();
-            saveList();
-        });
-
-        $(function() {
-            // $('.save').click(function() {
-            //     saveList();
-            // });
-
-            $('.datasend').click(function() {
-                var data = $('.list-input').val();
-                $('.list-input').val('');
-                socket.emit('addItem', data);
-            });
-
-            $('.list-input').keypress(function(e) {
-                if (e.which == 13) {
-                    $('.datasend').click().blur();
-                }
-            });
-
-            function updateItem(thisElement) {
-                var itemContent = thisElement.html();
-                var itemID = thisElement.attr('itemID');
-                socket.emit('updateItem', itemID, itemContent)
-            }
-
-            socket.on('showItemUpdate', function(itemID, itemContent) {
-                $('.list-item[itemID = "' + itemID + '"]').html(itemContent);
-                $('.list-item[itemID = "' + itemID + '"]').clearQueue().animate({'color': 'red'}, 100).animate({'color': 'black'}, 1000);
-                console.log('ITEM ' + itemID + ' UPDATED');
-                console.log($('.list-item[itemID = "' + itemID + '"]').html());
-            });
-
-            $('.sub-lists')
-                .on('click', '.list-item', function() {
-                    var itemContentBackup = $(this).html();
-                    $(this).addClass('active');
-                    $(this).keydown( function(e) {
-                        console.log(e.which);
-                        saveList();
-                        if (e.which == 13) {
-                            // updateEntireList();
-                            $(this).blur();
-
-                        }
-                    });
-
-                    $(this).keyup( function(e) {
-                        if (e.which == 27) {
-                            // updateEntireList();
-                            $(this).html(itemContentBackup);
-                            console.log('ESCAPE');
-                            $(this).blur();
-                        }
-                    });
-                    
-                })
-                .on('blur', '.list-item', function() {
-                    $(this).removeClass('active');
-                    saveList();
-                })
-                .on('keyup', '.list-item', function() {
-                    updateItem($(this));
-                });
-
-            $('.sub-lists').on('click', '.list-todo .checkbox-todo', function() {
-                $(this).attr('checked', 'checked');
-                var thisListItem = $(this).parent('li');
-                $('.list-done').prepend('<li>' + thisListItem.html() + '</li>');
-                thisListItem.remove();
-                updateEntireList();
-                console.log('check');
-                
-            })
-
-            $('.sub-lists').on('click', '.list-done .checkbox-todo', function() {
-                console.log('uncheck');
-                $(this).removeAttr('checked');
-                var thisListItem = $(this).parent('li');
-                $('.list-todo').prepend('<li>' + thisListItem.html() + '</li>');
-                thisListItem.remove();
-                updateEntireList()
-            })
-
-            function updateEntireList() {
-                thisList.HTMLcontent = $('.sub-lists').html();
-                socket.emit('coldUpdate', thisList)
-            }
-        });
-
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-sanitize.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/app.js"></script>
+    
     <link rel="stylesheet" href="/css/style.css" type="text/css" />
 
 </head>
-<body>
+<body data-ng-controller="listCtrl">
 
 <div class="header">
     <h1><a href="#" class="unstyled-link">todogether.io</a></h1>
@@ -171,30 +30,56 @@
 </div>
 <div class="list">
 
-    <h2 class="list-name">Listname</h2>
-    <p>Your unique list-address: <a href='#' class="list-url">todogether.io/AS_DMjsa</a></p>
+    <h2 class="list-name" contenteditable >{{ list.meta.customName}}</h2>
+    <p>Your unique list-address: <a href='#' class="list-url">todogether.io/{{ list.meta.id }}</a></p>
     
-    <div class="input-area">
-        <input class="list-input edit-border"/><a href="#" class="datasend list-input-button">+</a>
-    </div>
+    <form class="input-area" data-ng-submit="addToList()">
+        <input class="list-input edit-border" data-ng-model="inputText" />
+        <input type="submit" id="submit" value="Submit" /><a href="#" class="datasend list-input-button" >+</a>
+    </form>
 
     <div class="list-main">
 
         <div class="sub-lists">
             <h3>To do</h3>
-            <ul class="list-todo"></ul>
+            <ul class="list-todo">
+                <li data-ng-repeat="item in list.items.todo | filter:filter">
+                    <div class="checkbox todo" data-ng-click="moveItem(item, from = 'todo', to = 'done')">[X]</div>
+                    <div itemID="{{ item['id'] }}" class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
+                    <a data-ng-click="moveItem(item, from = 'todo', to = 'deleted')">delete</a>
+                </li>
+            </ul>
             <h3>Done</h3>
-            <ul class="list-done"></ul>
+            <ul class="list-done">
+                <li data-ng-repeat="item in list.items.done | filter:filter">
+                    <div class="checkbox done" data-ng-click="moveItem(item, from = 'done', to = 'todo')">[X]</div>
+                    <div class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
+                    <a data-ng-click="moveItem(item, from = 'done', to = 'deleted')">delete</a>
+                </li>
+            </ul>
+            <h3>Deleted</h3>
+            <ul class="list-deleted">
+                <li data-ng-repeat="item in list.items.deleted | filter:filter">
+                    <div class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
+                    <a data-ng-click="moveItem(item, from = 'deleted', to = 'todo')">reanimate</a>
+                </li>
+            </ul>
         </div>
     </div>
 
     <div class="list-footer">
         <div class="list-info">
             <!-- <h3>INFO</h3> -->
-            <h3>Created:</h3> 01.12.2014 9:32<br>
-            <h3>Last edit:</h3> 01.12.2014 18:17<br>
-            <h3>List items:</h3> 27 (3/24)<br>
-            <h3>Active users:</h3> <span class="users">1</span>
+            <h3>Show items for:</h3>
+                <a data-ng-click="filterBy('')"><span>@all</span></a>
+                <a data-ng-repeat="user in userNames">
+                    <span data-ng-click="filterBy(user)">{{ user }}</span> 
+                </a>
+                <br>
+            <h3>Active users:</h3> <span class="users">1</span><br>
+            <h3>Created:</h3> {{ list.meta.created }}<br>
+            <h3>Last edit:</h3> {{ list.meta.lastEdit }}<br>
+            <h3>List items:</h3> {{ itemCount.all }} ({{ itemCount.todo }}/{{ itemCount.done }}/{{ itemCount.deleted }})<br>
             <!-- <h3>STATUS:</h3>
             <ul class="log"></ul> -->
         </div>
