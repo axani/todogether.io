@@ -5,7 +5,7 @@
     <title>todogether.io</title>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-sanitize.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
@@ -13,25 +13,25 @@
     <script src="js/app.js"></script>
     <script>
         
-        var socket = io.connect();
-        var thisID = '';
+        // var socket = io.connect();
+        // var thisID = '';
 
-        socket.emit('generateID');
-        socket.on('showID', function(listID) {
-            console.log('Your List ID will be: ' + listID);
-            thisID = listID;
-        })
+        // socket.emit('generateID');
+        // socket.on('showID', function(listID) {
+        //     console.log('Your List ID will be: ' + listID);
+        //     thisID = listID;
+        // })
         
-        $(function() {
-            $('.sendmetolist').click(function() {
-                socket.emit('createList');
-                $(this).attr('href', thisID);
-            });
-        });
+        // $(function() {
+        //     $('.sendmetolist').click(function() {
+        //         socket.emit('createList');
+        //         $(this).attr('href', thisID);
+        //     });
+        // });
     </script>
 </head>
-<body data-ng-controller="listCtrl">
+<body >
     <h1>Welcome!</h1>
-    <a class="sendmetolist" href="">Create new List!</a>
+    <a data-ng-controller="newListCtrl" class="sendmetolist" href="">Create new List! {{ randomID }}</a>
 </body>
 </html>

@@ -1,6 +1,8 @@
 var todogetherSocket = angular.module('todogetherSocket', []);
 var todogetherControllers = angular.module('todogetherControllers', []);
 
+
+
 todogetherSocket.factory('socket', [ '$rootScope', function ($rootScope) {
   'use strict';
   var socket = io.connect();
@@ -11,7 +13,7 @@ todogetherSocket.factory('socket', [ '$rootScope', function ($rootScope) {
         var args = arguments;
         $rootScope.$apply(function () {
           if (callback) {
-            callback.apply(null, args);
+            callback.apply(socket, args);
           }
       });
     });
@@ -20,7 +22,7 @@ todogetherSocket.factory('socket', [ '$rootScope', function ($rootScope) {
       socket.on(event, function () {
         var args = arguments;
         $rootScope.$apply(function () {
-          callback.apply(null, args);
+          callback.apply(socket, args);
         });
       });
     },
@@ -29,6 +31,55 @@ todogetherSocket.factory('socket', [ '$rootScope', function ($rootScope) {
     }
   };
 }]);
+
+todogetherControllers.controller('newListCtrl', function (socket, $scope, $http) {
+
+        socket.on('connect', function () {
+            
+            /* Maintenance */
+            socket.emit('getState', { initial: true });
+
+            socket.on('gotState', function (state) {
+                $scope.state = state;
+            });
+
+            socket.on('printToConsole', function (data) {
+                console.log(data);
+            });
+
+            $scope.$on('$destroy', function () {
+                socket.off('gotState', updateState);
+            });
+        });
+
+
+
+        function generateID() {
+            var newID = "";
+            var possible = "abcdefghijklmnopqrstuvwxyz0123456789_-";
+
+            for( var i=0; i < 9; i++ ) {
+                newID += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+
+            console.log('Generated ID:' + newID);
+
+            return '/' + newID + '1';
+        }
+
+        $scope.randomID = generateID();
+
+        // $scope.sendMeToList = function() {
+        //     // if ()
+        // }
+
+        $(function() {
+            $('.sendmetolist').attr('href', $scope.randomID).click(function() {
+                socket.emit('createList', $scope.randomID)
+                return false
+            });
+        });
+});
 
 todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
     /* Functions */
@@ -49,7 +100,6 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
         $scope.$on('$destroy', function () {
             socket.off('gotState', updateState);
         });
-
     });
 
     $http.get('li' + thisList.ID).success(function(data){

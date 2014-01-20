@@ -13,6 +13,7 @@ var listFolder = 'li'
 
 /* Main Routes */
 
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
@@ -38,3 +39,20 @@ app.get('*', function(req, res) {
         }
     });
 })
+
+
+io.sockets.on('connection', function(socket) {
+    
+    socket.on('createList', function(listID) {
+        var JSONcontent = '{"meta": { "id": "' + listID + '", "customName": "New List fancy name"}}'
+        socket.emit('printToConsole', 'hello');
+
+        fs.writeFile('public/' + listFolder + listID, JSONcontent, function(err) {
+            if(err) {
+                console.log(err);
+            } else {
+                console.log("New list was created: " + listID);
+            }
+        }); 
+    });
+});
