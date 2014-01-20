@@ -165,8 +165,10 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
             console.log($scope.list);
         }
 
-        $('.list-name').keypress(function() {
+        $('.list-name').keyup(function() {
             $scope.list.meta.customName = $(this).text()
+            // ! - Überarbeiten, damit es live funktioniert
+            $('title').html('todogether.io - ' + $(this).text())
         })
 
         /* List Behaviour */
