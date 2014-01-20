@@ -43,11 +43,16 @@ app.get('*', function(req, res) {
 
 io.sockets.on('connection', function(socket) {
     
-    socket.on('createList', function(listID) {
+    socket.on('createList', function(listMeta) {
         var JSONcontent = require(__dirname + '/public/static/_template.json');
-        socket.emit('printToConsole', JSONcontent);
+        var listID = listMeta.randomID
+        var currentTime = listMeta.currentTime
 
-        fs.writeFile('public/' + listFolder + listID, JSONcontent, function(err) {
+        JSONcontent.meta['id'] = listID
+        JSONcontent.meta['created'] = currentTime
+        JSONcontent.meta['lastEdit'] = currentTime
+
+        fs.writeFile('public/' + listFolder + listID, JSON.stringify(JSONcontent, null, 4), function(err) {
             if(err) {
                 console.log(err);
             } else {

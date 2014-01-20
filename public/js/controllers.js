@@ -1,7 +1,19 @@
 var todogetherSocket = angular.module('todogetherSocket', []);
 var todogetherControllers = angular.module('todogetherControllers', []);
 
+function getCurrentTime() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
 
+    var yyyy = today.getFullYear();
+    var hh = today.getHours();
+    var M = today.getMinutes();
+
+    if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} if(M<10){M='0'+M}
+    today = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + M;
+    return today
+}
 
 todogetherSocket.factory('socket', [ '$rootScope', function ($rootScope) {
   'use strict';
@@ -67,11 +79,13 @@ todogetherControllers.controller('newListCtrl', function (socket, $scope, $http)
             return '/' + newID + '1';
         }
 
-        $scope.randomID = generateID();
+        $scope.meta = {}
+        $scope.meta.randomID = generateID();
+        $scope.meta.currentTime = getCurrentTime();
 
         $(function() {
-            $('.sendmetolist').attr('href', $scope.randomID).click(function() {
-                socket.emit('createList', $scope.randomID)
+            $('.sendmetolist').attr('href', $scope.meta.randomID).click(function() {
+                socket.emit('createList', $scope.meta)
             });
         });
 });
@@ -82,6 +96,7 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
     thisList.ID = window.location.pathname;
 
     console.log(thisList);
+    $scope.currentTime = getCurrentTime();
 
     socket.on('connect', function () {
         
