@@ -44,8 +44,8 @@ app.get('*', function(req, res) {
 io.sockets.on('connection', function(socket) {
     
     socket.on('createList', function(listID) {
-        var JSONcontent = '{"meta": { "id": "' + listID + '", "customName": "New List fancy name"}}'
-        socket.emit('printToConsole', 'hello');
+        var JSONcontent = require(__dirname + '/public/static/_template.json');
+        socket.emit('printToConsole', JSONcontent);
 
         fs.writeFile('public/' + listFolder + listID, JSONcontent, function(err) {
             if(err) {

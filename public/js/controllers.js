@@ -69,14 +69,9 @@ todogetherControllers.controller('newListCtrl', function (socket, $scope, $http)
 
         $scope.randomID = generateID();
 
-        // $scope.sendMeToList = function() {
-        //     // if ()
-        // }
-
         $(function() {
             $('.sendmetolist').attr('href', $scope.randomID).click(function() {
                 socket.emit('createList', $scope.randomID)
-                return false
             });
         });
 });

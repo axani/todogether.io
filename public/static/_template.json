@@ -1,0 +1,13 @@
+{
+    "meta": {
+        "id":   "",
+        "customName": "Your List",
+        "created": "",
+        "lastEdit": ""
+    },
+    "items": {
+        "todo": [],
+        "done": [],
+        "deleted": []
+    }
+}
