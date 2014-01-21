@@ -60,4 +60,27 @@ io.sockets.on('connection', function(socket) {
             }
         }); 
     });
+
+    socket.on('updateList', function(allData, listID) {
+        // io.sockets.emit('getList', allData);
+        io.sockets.in(socket.connectedList).emit('getList', allData)
+    });
+
+    socket.on('newUser', function(thisListID) {
+        console.log('A new User connected');
+        socket.connectedList = thisListID
+        socket.join(thisListID)
+
+        function countUsers() {
+            var currentUsers = 0;
+            io.sockets.clients(socket.connectedList).forEach(function() {
+                currentUsers++
+            });
+            console.log('Current Users:' + currentUsers);
+            return currentUsers;
+        }
+
+        io.sockets.in(socket.connectedList).emit('updateUsers', countUsers());
+
+    });
 });

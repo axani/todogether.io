@@ -118,6 +118,10 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
         $scope.list = data;
         $scope.itemCount = {}
         $scope.filter = ''
+        var thisListID = $scope.list.meta['id'];
+        socket.connectedList = thisListID;
+
+        socket.emit('newUser', thisListID)
 
         $scope.filterBy = function(user) {
             console.log('hello ' + user);
@@ -152,17 +156,32 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
             };
         };
 
+        socket.on('updateUsers', function(userCount) {
+            $('.users').html(userCount);
+            console.log('Current users: '+ userCount);
+        });
+
 
         $scope.countItems()
 
+        socket.on('getList', function(newListData) {
+            $scope.list = newListData;
+            console.log('new List here');
+        });
+
         $scope.inputText = ''
         $scope.addToList = function() {
-            var thisID = $scope.itemCount['all'] + 1 + ''
+            $scope.itemCount['all'] += 1
+            $scope.itemCount['todo'] += 1
+            var thisID = $scope.itemCount['all'] + ''
             var item = {"id": thisID, "text": $scope.inputText};
             $scope.list.items.todo.unshift(item)
             $scope.inputText = '';
 
+            socket.emit('updateList', $scope.list, thisListID)
+
             console.log($scope.list);
+            console.log($scope.itemCount);
         }
 
         $('.list-name').keyup(function() {
@@ -174,25 +193,30 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
         /* List Behaviour */
 
         $scope.moveItem = function(item, from, to) {
+            $scope.itemCount[from] -= 1
+            $scope.itemCount[to] += 1
             var fromThisList = $scope.list.items[from]
             var toThisList = $scope.list.items[to]
             var indexOfItem = fromThisList.indexOf(item);
             fromThisList.splice([indexOfItem], 1)
             toThisList.unshift(item)
+            socket.emit('updateList', $scope.list, thisListID)
         }
 
-        $scope.deleteItem = function(subListName, item) {
-            var subList = $scope.list.items[subListName]
-            var indexOfItem = subList.indexOf(item);
-            subList.splice([indexOfItem], 1)
+        // $scope.deleteItem = function(subListName, item) {
+        //     $scope.itemCount['delete'] += 1
+        //     $scope.itemCount['delete'] += 1
+        //     var subList = $scope.list.items[subListName]
+        //     var indexOfItem = subList.indexOf(item);
+        //     subList.splice([indexOfItem], 1)
 
-            if (subListName != 'deleted') {
-                $scope.list.items.deleted.unshift(item)
-            } else {
-                // Reanimate item
-                $scope.list.items.todo.unshift(item)
-            }
-        }
+        //     if (subListName != 'deleted') {
+        //         $scope.list.items.deleted.unshift(item)
+        //     } else {
+        //         // Reanimate item
+        //         $scope.list.items.todo.unshift(item)
+        //     }
+        // }
 
 
         // ! -- Diese Funktionalität muss ich noch mal genauer nachbearbeiten, 
