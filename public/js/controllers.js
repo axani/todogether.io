@@ -178,7 +178,8 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
             $scope.list.items.todo.unshift(item)
             $scope.inputText = '';
 
-            socket.emit('updateList', $scope.list, thisListID)
+            console.log('thisListID: ' + thisListID);
+            socket.emit('updateList', $scope.list)
 
             console.log($scope.list);
             console.log($scope.itemCount);
@@ -200,7 +201,7 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
             var indexOfItem = fromThisList.indexOf(item);
             fromThisList.splice([indexOfItem], 1)
             toThisList.unshift(item)
-            socket.emit('updateList', $scope.list, thisListID)
+            socket.emit('updateList', $scope.list)
         }
 
         // $scope.deleteItem = function(subListName, item) {

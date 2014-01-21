@@ -42,6 +42,16 @@ app.get('*', function(req, res) {
 
 
 io.sockets.on('connection', function(socket) {
+
+    saveList = function(thisListID, JSONdata) {
+        fs.writeFile('public/' + listFolder + thisListID, JSON.stringify(JSONdata, null, 4), function(err) {
+            if(err) {
+                console.log(err);
+            } else {
+                console.log("Lst was saved: " + thisListID);
+            }
+        }); 
+    }
     
     socket.on('createList', function(listMeta) {
         var JSONcontent = require(__dirname + '/public/static/_template.json');
@@ -52,18 +62,14 @@ io.sockets.on('connection', function(socket) {
         JSONcontent.meta['created'] = currentTime
         JSONcontent.meta['lastEdit'] = currentTime
 
-        fs.writeFile('public/' + listFolder + listID, JSON.stringify(JSONcontent, null, 4), function(err) {
-            if(err) {
-                console.log(err);
-            } else {
-                console.log("New list was created: " + listID);
-            }
-        }); 
+        saveList(listID, JSONcontent)
     });
 
-    socket.on('updateList', function(allData, listID) {
+    socket.on('updateList', function(allData) {
         // io.sockets.emit('getList', allData);
+        console.log('+++++++ ' + allData.meta['id']);
         io.sockets.in(socket.connectedList).emit('getList', allData)
+        saveList(allData.meta['id'], allData)
     });
 
     socket.on('newUser', function(thisListID) {

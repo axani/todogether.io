@@ -43,7 +43,7 @@
         <div class="sub-lists">
             <h3>To do</h3>
             <ul class="list-todo">
-                <li data-ng-repeat="item in list.items.todo | filter:filter">
+                <li data-ng-repeat="item in list.items.todo track by $index | filter:filter">
                     <div class="checkbox todo" data-ng-click="moveItem(item, from = 'todo', to = 'done')">[X]</div>
                     <div itemID="{{ item['id'] }}" class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
                     <a data-ng-click="moveItem(item, from = 'todo', to = 'deleted')">delete</a>
@@ -51,7 +51,7 @@
             </ul>
             <h3>Done</h3>
             <ul class="list-done">
-                <li data-ng-repeat="item in list.items.done | filter:filter">
+                <li data-ng-repeat="item in list.items.done track by $index | filter:filter">
                     <div class="checkbox done" data-ng-click="moveItem(item, from = 'done', to = 'todo')">[X]</div>
                     <div class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
                     <a data-ng-click="moveItem(item, from = 'done', to = 'deleted')">delete</a>
@@ -59,7 +59,7 @@
             </ul>
             <h3>Deleted</h3>
             <ul class="list-deleted">
-                <li data-ng-repeat="item in list.items.deleted | filter:filter">
+                <li data-ng-repeat="item in list.items.deleted track by $index | filter:filter">
                     <div class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
                     <a data-ng-click="moveItem(item, from = 'deleted', to = 'todo')">reanimate</a>
                 </li>
