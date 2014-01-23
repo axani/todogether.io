@@ -15,59 +15,70 @@
     <script type="text/javascript" src="//use.typekit.net/xmx8tct.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     
+    <link rel="stylesheet" href="/css/webfonts/ss-air.css" type="text/css" />
     <link rel="stylesheet" href="/css/style.css" type="text/css" />
 
 </head>
 <body >
 
-<!-- <div class="header">
+<div class="header">
     <h1><a href="#" class="unstyled-link">todogether.io</a></h1>
     <ul>
-        <li><a data-ng-controller="newListCtrl" class="sendmetolist" href="">Create a new List!</a></li>
-        <li><a href="#">Feature Request</a></li>
-        <li><a href="#">Help</a></li>
+        <li><a data-ng-controller="newListCtrl" class="sendmetolist" href=""><span class="ss-icon">&#xEB83; </span>Create a new List!</a></li>
+        <!-- <li><a href="#"><span class="ss-icon">&#x2753; </span>Feature Request</a></li> -->
+        <li><a href="#"><span class="ss-icon">&#xEE11; </span>Help</a></li>
     </ul>
-</div> -->
+</div>
 <div class="list">
 
-    <!-- <h2 class="list-name" contenteditable>{{ list.meta.customName }}</h2>
-    <p>Your unique list-address: <a href='#' class="list-url">todogether.io{{ list.meta.id }}</a></p> -->
+    <div class="interaction">
+        <a href="#"><span class="ss-icon">&#xE353;</span> Share this list</a>
+        
+    </div>
+
+    <!-- <h2 class="list-name" contenteditable>{{ list.meta.customName }}</h2> -->
+    <!-- <p>Your unique list-address: <a href='#' class="list-url">todogether.io{{ list.meta.id }}</a></p> -->
     
     <form class="input-area" data-ng-submit="addToList()">
-        <h3>To do: </h3><input class="list-input edit-border" data-ng-model="inputText" />
-        <!-- <input type="submit" id="submit" value="Submit" /><a href="#" class="datasend list-input-button" >+</a> -->
+        <h3><!-- <span class="ss-icon">&#x1F4DD;</span> --><!-- To do:  --></h3><input class="list-input edit-border" data-ng-model="inputText" />
+        <!-- <input type="submit" id="submit" value="Submit" />--><a href="#" class="ss-icon datasend list-input-button" >add</a>
     </form>
 
     <div class="list-main">
 
         <div class="sub-lists">
-            
-            <ul sublistname="todo" class="list-todo">
+            <!-- <h3>To do</h3> -->
+            <ul sublistname="todo" class="sub-list list-todo">
                 <li class="list-item-container" data-ng-repeat="item in list.items.todo track by $index | filter:filter">
-                    <div class="checkbox todo" data-ng-click="moveItem(item, from = 'todo', to = 'done')"></div>
+                    <div class="checkbox todo" data-ng-click="moveItem(item, from = 'todo', to = 'done')"><span class="checkmark ss-icon todo">&#x2713;</span></div>
                     <div itemid="{{ item['id'] }}" class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
                     <div class="list-item-meta">
-                        <a data-ng-click="moveItem(item, from = 'todo', to = 'deleted')">delete</a>
+                        <a class="ss-icon delete" data-ng-click="moveItem(item, from = 'todo', to = 'deleted')">delete</a>
                     </div>
                 </li>
             </ul>
-            <h3>Done:</h3>
-            <ul sublistname="todo"  class="list-done">
+            <!-- <h3>Done</h3> -->
+            <ul sublistname="todo"  class="sub-list list-done">
                 <li class="list-item-container" data-ng-repeat="item in list.items.done track by $index | filter:filter">
-                    <div class="checkbox done" data-ng-click="moveItem(item, from = 'done', to = 'todo')">[X]</div>
+                    <div class="checkbox done" data-ng-click="moveItem(item, from = 'done', to = 'todo')">
+                        <span class="checkmark ss-icon done">&#x2713;</span>
+                    </div>
                     <div itemid="{{ item['id'] }}" class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
                     <div class="list-item-meta">
-                        <a data-ng-click="moveItem(item, from = 'done', to = 'deleted')">delete</a>
+                        <a class="ss-icon" data-ng-click="moveItem(item, from = 'done', to = 'deleted')">delete</a>
                     </div>
                 </li>
             </ul>
-            <h3>Deleted:</h3>
-            <ul sublistname="todo"  class="list-deleted">
+            <!-- <h3>Deleted</h3> -->
+            <ul sublistname="todo"  class="sub-list list-deleted">
                 <li class="list-item-container" data-ng-repeat="item in list.items.deleted track by $index | filter:filter">
-                    <div itemid="{{ item['id'] }}" class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
-                    <div class="list-item-meta">
-                        <a data-ng-click="moveItem(item, from = 'deleted', to = 'todo')">reanimate</a>
+                    <div class="checkbox delete" data-ng-click="moveItem(item, from = 'deleted', to = 'todo')">
+                        <span class="checkmark ss-icon deleted">&#x2421;</span>
                     </div>
+                    <div itemid="{{ item['id'] }}" class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
+                    <!-- <div class="list-item-meta">
+                        <a class="ss-icon" data-ng-click="moveItem(item, from = 'deleted', to = 'todo')">&#x002B;</a>
+                    </div> -->
                 </li>
             </ul>
         </div>

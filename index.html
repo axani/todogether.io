@@ -11,10 +11,18 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/app.js"></script>
+
+    <link rel="stylesheet" href="/css/webfonts/ss-air.css" type="text/css" />
     <link rel="stylesheet" href="/css/style.css" type="text/css" />
 </head>
 <body >
     <h1>Welcome!</h1>
+    <div class="interaction">
+        <a href="#">1. <span class="ss-icon">&#x1F4DD;</span></a>
+        <a href="#">2. <span class="ss-icon">&#x2709;</span></a>
+        <a href="#">3. <span class="ss-icon">&#xE353;</span></a>
+        <a href="#">4. <span class="ss-icon">&#x1F465;</span></a>
+    </div>
     <a data-ng-controller="newListCtrl" class="sendmetolist" href="">Create new List! {{ meta.randomID }}</a>
 </body>
 </html>
