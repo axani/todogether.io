@@ -164,6 +164,10 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
 
         $scope.countItems()
 
+        socket.on('updateItem', function(data) {
+            $scope.list = data
+        });
+
         socket.on('getList', function(newListData) {
             $scope.list = newListData;
             console.log('new List here');
@@ -189,6 +193,7 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
             $scope.list.meta.customName = $(this).text()
             // ! - Überarbeiten, damit es live funktioniert
             $('title').html('todogether.io - ' + $(this).text())
+            // socket.emit('liveUpdate', $scope.list)
         })
 
         /* List Behaviour */
@@ -202,6 +207,7 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
             fromThisList.splice([indexOfItem], 1)
             toThisList.unshift(item)
             socket.emit('updateList', $scope.list)
+            socket.emit('saveList', $scope.list)
         }
 
         // $scope.deleteItem = function(subListName, item) {
@@ -220,8 +226,24 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
         // }
 
 
-        // ! -- Diese Funktionalität muss ich noch mal genauer nachbearbeiten, 
-        // sobald ich wieder mit sockets arbeite
+        socket.on('showItemUpdate', function(data) {
+            var itemID = data['id'];
+            var itemContent = data['content'];
+            var sublist = $('.list-item[itemid = "' + itemID + '"]').parents('ul').attr('sublistname');
+            $('.list-item[itemid = "' + itemID + '"]').html(itemContent);
+            $('.list-item[itemid = "' + itemID + '"]').clearQueue().animate({'color': 'red'}, 100).animate({'color': 'black'}, 1000);
+            _.each($scope.list.items[sublist], function(item) {
+                if(item['id'] === itemID) {
+                    item['text'] = itemContent;
+                    console.log($scope.list);
+
+                    // ? Warum wird das nicht gespeichert?
+                }
+            })
+            console.log('ITEM ' + itemID + ' UPDATED');
+            console.log($('.list-item[itemid = "' + itemID + '"]').html());
+        });
+
         $('.sub-lists')
             .on('click', '.list-item', function() {
                 var itemContentBackup = $(this).html();
@@ -246,7 +268,7 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
             })
             .on('blur', '.list-item', function() {
                 $(this).removeClass('active');
-                var itemID = $(this).attr('itemID');
+                var itemID = $(this).attr('itemid');
                 var newText = $(this).text();
                 _.each($scope.list.items.todo, function(thisItem) {
                     if(thisItem['id'] === itemID) {
@@ -254,14 +276,16 @@ todogetherControllers.controller('listCtrl', function (socket, $scope, $http) {
                     }
                 });
                 console.log($scope.list);
+                socket.emit('saveList', $scope.list)
+
             })
             .on('keyup', '.list-item', function() {
-                //function updateItem(thisElement) {
-                //    var itemContent = thisElement.html();
-                //    var itemID = thisElement.attr('itemID');
-                //    socket.emit('updateItem', itemID, itemContent)
-                //}
-                //updateItem($(this));
+                function updateItem(thisElement) {
+                   var itemID = thisElement.attr('itemid');
+                   var itemContent = thisElement.html();
+                   socket.emit('updateItem', {'id': itemID, 'content': itemContent})
+                }
+                updateItem($(this));
 
             });
     })

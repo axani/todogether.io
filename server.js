@@ -48,7 +48,7 @@ io.sockets.on('connection', function(socket) {
             if(err) {
                 console.log(err);
             } else {
-                console.log("Lst was saved: " + thisListID);
+                console.log("List was saved: " + thisListID);
             }
         }); 
     }
@@ -65,12 +65,28 @@ io.sockets.on('connection', function(socket) {
         saveList(listID, JSONcontent)
     });
 
+    socket.on('liveUpdate', function(data) {
+        io.sockets.in(data.meta['id']).emit('updateItem', data)
+    });
+
+    socket.on('updateItem', function(data) {
+
+        var itemID = data['id']
+        var itemContent = data['content']
+        // io.sockets.in(socket.connectedList).emit('showItemUpdate', itemID, itemContent);
+        socket.broadcast.to(socket.connectedList).emit('showItemUpdate', {'id': itemID, 'content': itemContent});
+        console.log('updating item: ', itemID);
+    });
+
     socket.on('updateList', function(allData) {
         // io.sockets.emit('getList', allData);
         console.log('+++++++ ' + allData.meta['id']);
         io.sockets.in(socket.connectedList).emit('getList', allData)
-        saveList(allData.meta['id'], allData)
     });
+
+    socket.on('saveList', function(data) {
+        saveList(data.meta['id'], data)
+    })
 
     socket.on('newUser', function(thisListID) {
         console.log('A new User connected');
