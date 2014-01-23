@@ -7,12 +7,20 @@
 $background-color: #eee;
 $text-color-dark: black;
 $text-color-light: #ffaa4b;
+$text-color-std: #5f5f5f;
 
 $spot-color: #d45775;
+
+$spot-blue: #55cdff;
+$spot-blue-light: lighten($spot-blue, 5%); 
+$spot-blue-dark: darken($spot-blue, 15%); 
+
 $dark-color: #5f5f5f;
 
 $std-line-height: 1.4em;
 $std-font: "lft-etica", Times New Roman;
+
+$left-column: 5em;
 
 /* Helpers */
 
@@ -20,19 +28,45 @@ $std-font: "lft-etica", Times New Roman;
     text-decoration: none;
 }
 
-.edit-border {
-    border: 1px dashed $dark-color;
+.hovering {
+    border-color: $spot-blue-dark;
+    background-color: #fefefe;
+
+}
+
+.editing {
+    background-color: $spot-blue-light;
+    color: white;
+    outline: none;
+    border: 2px solid $spot-blue-dark;
+    text-shadow: 1px 1px 2px $spot-blue-dark, -1px -1px 2px $spot-blue-dark;
+}
+
+.std-box {
+    border: 2px solid $spot-blue;
+    border-radius: 2px;
 }
 
 /* Main */
 body {
     font-family: $std-font;
-    font-size: 24px;
+    font-size: 26px;
     line-height: $std-line-height;
-    background-color: $background-color;
+    background-color: white;
     color: $text-color-dark;
     padding: 1em;
     font-weight: 200;
+}
+
+h1, h2, h3 {
+    letter-spacing: 1px;
+}
+
+h3 {
+    // font-size: 75%;
+    font-weight: 600;
+    margin: $std-line-height 0 0.7em 0;
+    text-transform: uppercase;
 }
 
 a {
@@ -73,10 +107,11 @@ p {
 /* List */
 
 .list {
-    background-color: white;
-    color: $text-color-dark;
+    width: 80%;
+    color: $text-color-std;
     padding: 1em;
-    margin: 1em 0;
+    margin: 1em 10%;
+    // border: 1px solid $spot-blue;
 
     a {
         color: $spot-color;
@@ -88,12 +123,31 @@ p {
     text-transform: uppercase;
 }
 
+.input-area {
+
+    margin-bottom: 2em;
+
+    h3 {
+        display: inline-block;
+        width: $left-column;
+    }
+}
+
 .list-input {
-    font-size: 1em;
-    color: #529ac8;
     font-family: $std-font;
+    font-weight: 200;
+    font-size: 1em;
     padding: 0.3em;
-    width: 80%;
+    width: 50%;
+    @extend .std-box;
+
+    &:hover {
+        @extend .hovering;
+    }
+
+    &:focus {
+        @extend .editing;
+    }
 }
 
 .list-input-button {
@@ -110,30 +164,49 @@ p {
 
 .sub-lists {
     margin: 1em 0;
+}
 
-    h3 {
-        font-weight: bold;
-        margin: $std-line-height 0 0.7em 0;
-        text-transform: uppercase;
+.checkbox {
+    width: $std-line-height;
+    height: $std-line-height;
+    display: inline-block;
+    margin-left: $left-column;
+    margin-right: 0.2em;
+    position: relative;
+    cursor: pointer;
+    @extend .std-box;
+
+    &:hover {
+        @extend .hovering;
     }
 }
 
+.list-item-container {
+    margin: 0.5em 0;
+}
+
 .list-item {
-    padding: 0.1em 0.3em;
+    display: inline-block;
+    max-width: 50%;
+    padding: 0 0.2em;
+    vertical-align: top;
 }
 
 .list-item.active{
-    @extend .edit-border;
-    color: #529ac8;
+    @extend .std-box;
+    @extend .editing;
+}
+
+.list-item-meta {
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 0.2em;
 }
 
 .list-done .list-item{
     color: #89d055;
 }
 
-input[type="checkbox"] {
-    margin-right: 0.6em;
-}
 
 .list-footer {
     background-color: #ffffe4;

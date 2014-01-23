@@ -20,57 +20,63 @@
 </head>
 <body >
 
-<div class="header">
+<!-- <div class="header">
     <h1><a href="#" class="unstyled-link">todogether.io</a></h1>
     <ul>
         <li><a data-ng-controller="newListCtrl" class="sendmetolist" href="">Create a new List!</a></li>
         <li><a href="#">Feature Request</a></li>
         <li><a href="#">Help</a></li>
     </ul>
-</div>
+</div> -->
 <div class="list">
 
-    <h2 class="list-name" contenteditable>{{ list.meta.customName }}</h2>
-    <p>Your unique list-address: <a href='#' class="list-url">todogether.io{{ list.meta.id }}</a></p>
+    <!-- <h2 class="list-name" contenteditable>{{ list.meta.customName }}</h2>
+    <p>Your unique list-address: <a href='#' class="list-url">todogether.io{{ list.meta.id }}</a></p> -->
     
     <form class="input-area" data-ng-submit="addToList()">
-        <input class="list-input edit-border" data-ng-model="inputText" />
-        <input type="submit" id="submit" value="Submit" /><a href="#" class="datasend list-input-button" >+</a>
+        <h3>To do: </h3><input class="list-input edit-border" data-ng-model="inputText" />
+        <!-- <input type="submit" id="submit" value="Submit" /><a href="#" class="datasend list-input-button" >+</a> -->
     </form>
 
     <div class="list-main">
 
         <div class="sub-lists">
-            <h3>To do</h3>
+            
             <ul sublistname="todo" class="list-todo">
-                <li data-ng-repeat="item in list.items.todo track by $index | filter:filter">
-                    <div class="checkbox todo" data-ng-click="moveItem(item, from = 'todo', to = 'done')">[X]</div>
+                <li class="list-item-container" data-ng-repeat="item in list.items.todo track by $index | filter:filter">
+                    <div class="checkbox todo" data-ng-click="moveItem(item, from = 'todo', to = 'done')"></div>
                     <div itemid="{{ item['id'] }}" class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
-                    <a data-ng-click="moveItem(item, from = 'todo', to = 'deleted')">delete</a>
+                    <div class="list-item-meta">
+                        <a data-ng-click="moveItem(item, from = 'todo', to = 'deleted')">delete</a>
+                    </div>
                 </li>
             </ul>
-            <h3>Done</h3>
+            <h3>Done:</h3>
             <ul sublistname="todo"  class="list-done">
-                <li data-ng-repeat="item in list.items.done track by $index | filter:filter">
+                <li class="list-item-container" data-ng-repeat="item in list.items.done track by $index | filter:filter">
                     <div class="checkbox done" data-ng-click="moveItem(item, from = 'done', to = 'todo')">[X]</div>
                     <div itemid="{{ item['id'] }}" class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
-                    <a data-ng-click="moveItem(item, from = 'done', to = 'deleted')">delete</a>
+                    <div class="list-item-meta">
+                        <a data-ng-click="moveItem(item, from = 'done', to = 'deleted')">delete</a>
+                    </div>
                 </li>
             </ul>
-            <h3>Deleted</h3>
+            <h3>Deleted:</h3>
             <ul sublistname="todo"  class="list-deleted">
-                <li data-ng-repeat="item in list.items.deleted track by $index | filter:filter">
+                <li class="list-item-container" data-ng-repeat="item in list.items.deleted track by $index | filter:filter">
                     <div itemid="{{ item['id'] }}" class="list-item" data-ng-bind-html="findDelegations(item.text)" contenteditable>{{ item.text }} </div>
-                    <a data-ng-click="moveItem(item, from = 'deleted', to = 'todo')">reanimate</a>
+                    <div class="list-item-meta">
+                        <a data-ng-click="moveItem(item, from = 'deleted', to = 'todo')">reanimate</a>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
 
-    <div class="list-footer">
-        <div class="list-info">
+    <!-- <div class="list-footer"> -->
+        <!-- <div class="list-info"> -->
             <!-- <h3>INFO</h3> -->
-            <h3>Show items for:</h3>
+           <!--  <h3>Show items for:</h3>
                 <a data-ng-click="filterBy('')"><span>@all</span></a>
                 <a data-ng-repeat="user in userNames">
                     <span data-ng-click="filterBy(user)">{{ user }}</span> 
@@ -79,10 +85,10 @@
             <h3>Active users:</h3> <span class="users">1</span><br>
             <h3>Created:</h3> {{ list.meta.created }}<br>
             <h3>Last edit:</h3> {{ list.meta.lastEdit }}<br>
-            <h3>List items:</h3> {{ itemCount.all }} ({{ itemCount.todo }}/{{ itemCount.done }}/{{ itemCount.deleted }})<br>
+            <h3>List items:</h3> {{ itemCount.all }} ({{ itemCount.todo }}/{{ itemCount.done }}/{{ itemCount.deleted }})<br> -->
             <!-- <h3>STATUS:</h3>
             <ul class="log"></ul> -->
-        </div>
+        <!-- </div> -->
         
        <!--  <div class="list-output">
             <div>
@@ -102,7 +108,7 @@
                 </ul>
             </div>
         </div> -->
-    </div>
+    <!-- </div> -->
 
     
 </div>
