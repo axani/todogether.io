@@ -145,6 +145,9 @@ img {
   border: 2px solid #55cdff;
   border-radius: 2px; }
 
+.ss-social {
+  top: 0.3em !important; }
+
 /* Main */
 * {
   box-sizing: border-box; }

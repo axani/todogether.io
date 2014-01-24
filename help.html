@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html data-ng-app="todogetherApp">
+<head>
+    <meta charset="utf-8" />
+    <title>todogether.io - Help</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-sanitize.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/app.js"></script>
+
+    <script type="text/javascript" src="//use.typekit.net/xmx8tct.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+    <link rel="stylesheet" href="/css/webfonts/ss-air.css" type="text/css" />
+    <link rel="stylesheet" href="/css/webfonts/ss-social-regular.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css" type="text/css" />
+</head>
+<body>
+    <div class="header">
+    <h1><a href="/" class="unstyled-link">todogether.io</a></h1>
+    <ul>
+        <li><a data-ng-controller="newListCtrl" class="sendmetolist" href=""><span class="ss-icon ss-air">&#xEB83; </span>Create a new List!</a></li>
+        <!-- <li><a href="#"><span class="ss-icon">&#x2753; </span>Feature Request</a></li> -->
+        <!-- <li><a href="#"><span class="ss-icon">&#xEE11; </span>Help</a></li> -->
+    </ul>
+</div>
+    <div class="content">
+        <h2>May I help you?</h2>
+        <div class="info-text">
+            <p>
+                todogether.io is still in development. So I´m happy when you contact me about things that don´t work as expected or you need help in any way. 
+            </p>
+            <p>
+                If you have an idea for a new feature, just drop me a line and we get it to work!
+            </p>
+        </div>
+        <h2>Don´t hesitate to contact me!</h2>
+        <ul class="list-steps">
+            <li href="#"><span class="ss-icon ss-social">&#xF611;</span> <a href="http://www.twitter.com/filip_axani">@filip_axani</a></li>
+            <li href="#"><span class="ss-icon ss-air">&#x2709;</span> <a href="mailto:philipp@todogether.io">philipp@todogether.io</a></li>
+            <!-- <li href="#"><span class="ss-icon ss-social">&#xF671;</span> <a href="https://github.com/axani">axani</a></li> -->
+        </ul>
+        <!-- <div class="next-step-area">
+            <a data-ng-controller="newListCtrl" class="sendmetolist button-green big" href="">
+                <span class="ss-icon">&#xEB83;</span> Create your List
+            </a>
+            <br>
+            <a href="" class="subtext">or view an example</a>
+        </div> -->
+    </div>
+    <div class="footer">
+    <p>
+        Feel free to <a href="mailtp:philipp@todogether.io">contact me</a>. – Built with – Visit this project at <a href="https://github.com/axani/todogether.io">GitHub</a>
+    </p>
+</div>
+</body>
+</html>

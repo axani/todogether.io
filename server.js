@@ -16,6 +16,10 @@ var listFolder = 'li'
 
 app.use(express.static(__dirname + '/public'));
 
+app.get('/help', function(req, res) {
+    res.sendfile(__dirname + '/help.html');
+});
+
 app.get('/', function(req, res) {
     res.sendfile(__dirname + '/index.html');
 });
