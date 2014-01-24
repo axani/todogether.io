@@ -1,5 +1,6 @@
 /node_modules
-li
+public/li/*
+!public/li/example.json
 public/css/ss-air
 public/css/webfonts
 public/css/ss-social-regular
