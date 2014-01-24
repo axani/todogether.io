@@ -133,12 +133,12 @@ img {
   border-color: #08b6ff;
   background-color: white; }
 
-.editing, .list-input:focus, .checkbox:active, .list-item.active {
+.editing, a.button-green:active, .list-input:focus, .checkbox:active, .list-item.active {
   background-color: #a1e3ff;
   color: white;
   outline: none;
   border: 2px solid #08b6ff; }
-  .editing strong, .list-input:focus strong, .checkbox:active strong, .list-item.active strong {
+  .editing strong, a.button-green:active strong, .list-input:focus strong, .checkbox:active strong, .list-item.active strong {
     color: white; }
 
 .std-box, .list-input, .checkbox, .list-item.active {
@@ -157,6 +157,9 @@ body {
   color: black;
   padding: 1em;
   font-weight: 200; }
+
+h1, h2 {
+  font-weight: bold; }
 
 h1, h2, h3 {
   letter-spacing: 1px; }
@@ -180,12 +183,14 @@ strong {
   font-weight: 200;
   color: #c5c5c5; }
 
+.subtext {
+  font-size: 0.7em; }
+
 .header {
   margin: 1em 10% 2em 10%;
   color: #5f5f5f; }
   .header h1 {
-    display: inline-block;
-    font-weight: bold; }
+    display: inline-block; }
   .header ul {
     display: inline-block;
     font-size: 0.7em;
@@ -201,18 +206,60 @@ strong {
       display: inline;
       padding: 1em; }
 
-.footer {
-  text-align: center;
-  font-size: 0.7em; }
-
-/* List */
-.list {
+.content {
   width: 80%;
   color: #5f5f5f;
   padding: 1em;
   margin: 1em 10%;
   background-color: white; }
 
+.footer {
+  text-align: center;
+  font-size: 0.7em; }
+
+/* Startpage */
+.info-text {
+  margin: 1em 10%; }
+
+.list-steps {
+  line-height: 2em;
+  width: 60%;
+  margin: 1em 10%; }
+  .list-steps .ss-icon {
+    color: #55cdff;
+    font-size: 1.5em;
+    position: relative;
+    top: 0.1em;
+    padding-right: 0.2em; }
+
+.next-step-area {
+  margin: 2em 0;
+  width: 100%;
+  text-align: center; }
+
+a.button-green {
+  background-color: #80ff80;
+  padding: 1em;
+  color: #00b300;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.2em;
+  font-weight: 600;
+  border-radius: 2px;
+  border: 2px solid #00e600;
+  text-transform: uppercase;
+  width: 90%;
+  margin: 0 5%;
+  opacity: 0.8; }
+  a.button-green .ss-icon {
+    font-size: 1.5em;
+    position: relative;
+    top: 0.2em;
+    padding-right: 0.2em; }
+  a.button-green:hover {
+    opacity: 1; }
+
+/* List */
 .interaction {
   margin: 1em 10% 1em 10%;
   text-align: center; }

@@ -12,17 +12,44 @@
     <script src="js/controllers.js"></script>
     <script src="js/app.js"></script>
 
+    <script type="text/javascript" src="//use.typekit.net/xmx8tct.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
     <link rel="stylesheet" href="/css/webfonts/ss-air.css" type="text/css" />
     <link rel="stylesheet" href="/css/style.css" type="text/css" />
 </head>
-<body >
-    <h1>Welcome!</h1>
-    <div class="interaction">
-        <a href="#">1. <span class="ss-icon">&#x1F4DD;</span></a>
-        <a href="#">2. <span class="ss-icon">&#x2709;</span></a>
-        <a href="#">3. <span class="ss-icon">&#xE353;</span></a>
-        <a href="#">4. <span class="ss-icon">&#x1F465;</span></a>
+<body>
+    <div class="header">
+        <h1>todogether.io</h1>
     </div>
-    <a data-ng-controller="newListCtrl" class="sendmetolist" href="">Create new List! {{ meta.randomID }}</a>
+    <div class="content">
+        <h2>Simple collaborative todo-lists:</h2>
+        <div class="info-text">
+            <p>
+                Create a todo-list with just one click. Share your unique link and collect all steps you need to do together.
+            </p>
+            <p>
+                It´s free, private and without registration.
+            </p>
+        </div>
+        <h2>Kickstart your next project:</h2>
+        <ol class="list-steps">
+            <li href="#"><span class="ss-icon">&#xEB83;</span> Create a new todo-list</li>
+            <li href="#"><span class="ss-icon">&#xE353;</span> Share your unique link</li>
+            <li href="#"><span class="ss-icon">&#x1F465;</span> Work together in realtime</li>
+        </ol>
+        <div class="next-step-area">
+            <a data-ng-controller="newListCtrl" class="sendmetolist button-green big" href="">
+                <span class="ss-icon">&#xEB83;</span> Create your List
+            </a>
+            <br>
+            <a href="" class="subtext">or view an example</a>
+        </div>
+    </div>
+    <div class="footer">
+    <p>
+        Feel free to <a href="mailtp:philipp@todogether.io">contact me</a>. – Built with – Visit this project at <a href="https://github.com/axani/todogether.io">GitHub</a>
+    </p>
+</div>
 </body>
 </html>

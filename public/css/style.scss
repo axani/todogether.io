@@ -72,6 +72,10 @@ body {
     font-weight: 200;
 }
 
+h1, h2 {
+    font-weight: bold;
+}
+
 h1, h2, h3 {
     letter-spacing: 1px;
 }
@@ -102,6 +106,10 @@ strong {
     // font-weight: 600;
 }
 
+.subtext {
+    font-size: 0.7em;
+}
+
 .header {
     
     margin: 1em 10% 2em 10%;
@@ -109,7 +117,6 @@ strong {
 
     h1 {
         display: inline-block;
-        font-weight: bold;
     }
 
     ul {
@@ -136,14 +143,7 @@ strong {
 
 }
 
-.footer {
-    text-align: center;
-    font-size: 0.7em;
-}
-
-/* List */
-
-.list {
+.content {
     width: 80%;
     color: $text-color-std;
     padding: 1em;
@@ -151,6 +151,73 @@ strong {
     // border: 1px solid $spot-blue;
     background-color: $background-color;
 }
+
+.footer {
+    text-align: center;
+    font-size: 0.7em;
+}
+
+/* Startpage */
+
+.info-text {
+    margin: 1em 10%;
+}
+
+.list-steps {
+    
+    line-height: 2em;
+    width: 60%;
+    margin: 1em 10%;
+
+    .ss-icon {
+        color: $spot-blue;
+        font-size: 1.5em;
+        position: relative;
+        top: 0.1em;
+        padding-right: 0.2em;
+    }
+}
+
+.next-step-area {
+    margin: 2em 0;
+    width: 100%;
+    text-align: center;
+}
+
+a.button-green {
+    background-color: $spot-green;
+    padding: 1em;
+    color: darken($spot-green, 40%);
+    display: inline-block;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: 600;
+    border-radius: 2px;
+    border: 2px solid darken($spot-green, 30%);
+    text-transform: uppercase;
+    width: 90%;
+    margin: 0 5%;
+    opacity: 0.8;
+
+    .ss-icon {
+        font-size: 1.5em;
+        position: relative;
+        top: 0.2em;
+        padding-right: 0.2em;
+    }
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &:active {
+        @extend .editing;
+    }
+}
+
+
+
+/* List */
 
 .interaction {
     margin: 1em 10% 1em 10%;
