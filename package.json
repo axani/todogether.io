@@ -2,7 +2,7 @@
   "name": "todogether",
   "description": "Create simple collaborative todo-lists",
   "version": "0.0.1",
-  "main": "app.js",
+  "main": "server.js",
   "dependencies": {
     "express": "latest",
     "socket.io": "latest",
