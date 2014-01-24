@@ -16,13 +16,44 @@
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
     <link rel="stylesheet" href="/css/webfonts/ss-air.css" type="text/css" />
-    <link rel="stylesheet" href="/css/webfonts/ss-social-regular.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/style.css" type="text/css" />
 </head>
-<body >
-
-<h1>This List-ID does not exist!</h1>
-<a data-ng-controller="newListCtrl" class="sendmetolist" href="">Create new List!</a>
+<body ><body>
+    <div class="header">
+    <h1><a href="/" class="unstyled-link">todogether.io</a></h1>
+    <ul>
+        <li><a data-ng-controller="newListCtrl" class="sendmetolist" href=""><span class="ss-icon ss-air">&#xEB83; </span>Create a new List!</a></li>
+        <!-- <li><a href="#"><span class="ss-icon">&#x2753; </span>Feature Request</a></li> -->
+        <li><a href="#"><span class="ss-icon">&#xEE11; </span>Help</a></li>
+    </ul>
+</div>
+    <div class="content">
+        <h2>This List adress does not exist!</h2>
+        <div class="info-text">
+            <p>
+                It seems you have entered a wrong list-adress.
+            </p>
+        </div>
+         <div class="next-step-area">
+            <a data-ng-controller="newListCtrl" class="sendmetolist button-green big" href="">
+                <span class="ss-icon">&#xEB83;</span> Create a new List
+            </a>
+            <br>
+            <a href="/help" class="subtext">Need some help?</a>
+        </div>
+        <!-- <div class="next-step-area">
+            <a data-ng-controller="newListCtrl" class="sendmetolist button-green big" href="">
+                <span class="ss-icon">&#xEB83;</span> Create your List
+            </a>
+            <br>
+            <a href="" class="subtext">or view an example</a>
+        </div> -->
+    </div>
+    <div class="footer">
+    <p>
+        Feel free to <a href="mailtp:philipp@todogether.io">contact me</a>. – Built with <a href="http://angularjs.org">AngularJS</a> and <a href="http://www.type-together.com/LFT%20Etica">LFT Etica</a> – Visit this project at <a href="https://github.com/axani/todogether.io">GitHub</a>
+    </p>
+</div>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
